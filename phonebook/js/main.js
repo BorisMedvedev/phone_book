@@ -1,10 +1,12 @@
 import { data } from '../../data.js';
 
+const newData = JSON.parse(JSON.stringify(data));
+
 {
   const addContactData = contact => {
-    data.push(contact);
+    newData.push(contact);
 
-    return [...data];
+    return newData;
   };
 
   const createContainer = () => {
@@ -100,7 +102,7 @@ import { data } from '../../data.js';
     };
   };
 
-  const createRow = ({ name: firstName, surname, phone }) => {
+  const createRow = ({ name: firstName, surname, phone, id }) => {
     const tr = document.createElement('tr');
     const tdDel = document.createElement('td');
     const tdName = document.createElement('td');
@@ -110,6 +112,12 @@ import { data } from '../../data.js';
     const linkPhone = document.createElement('a');
     const buttonDel = document.createElement('button');
     const buttonEdit = document.createElement('button');
+
+    tr.setAttribute('data-id', parseInt(phone));
+    tr.id = parseInt(phone);
+    for (let i = 0; i < newData.length; i++) {
+      newData[i].id = parseInt(newData[i].phone);
+    }
 
     tr.classList.add('contact');
     buttonEdit.classList.add('btn-edit');
@@ -131,7 +139,7 @@ import { data } from '../../data.js';
 
     return tr;
   };
-
+  console.log(newData);
   const printContact = (app, arr) => {
     const allRow = arr.map(createRow);
     app.append(...allRow);
@@ -255,13 +263,13 @@ import { data } from '../../data.js';
     let dir = true;
     const sort = () => {
       table.tBody.innerHTML = '';
-      printContact(table.tBody, sortTable(data, 'name', dir));
+      printContact(table.tBody, sortTable(newData, 'name', dir));
       dir = !dir;
     };
 
     const sortSur = () => {
       table.tBody.innerHTML = '';
-      printContact(table.tBody, sortTable(data, 'surname', dir));
+      printContact(table.tBody, sortTable(newData, 'surname', dir));
       dir = !dir;
     };
 
@@ -269,7 +277,7 @@ import { data } from '../../data.js';
     header.haderContainer.append(logo);
     main.mainContainer.append(buttonGroup.btnWrapper);
     main.mainContainer.append(table.table);
-    printContact(table.tBody, data);
+    printContact(table.tBody, newData);
 
     app.append(header, main);
     table.thName.addEventListener('click', sort);
@@ -304,15 +312,27 @@ import { data } from '../../data.js';
 
       addContactData(newContact);
       table.tBody.textContent = '';
-      printContact(table.tBody, data);
       form.overlay.classList.remove('is-visible');
       form.form.reset();
+      printContact(table.tBody, newData);
+      console.log('newData: ', newData);
     });
 
     table.tBody.addEventListener('click', e => {
+      e.preventDefault();
+      console.log(e.target);
       if (e.target.closest('.del-icon')) {
         if (confirm('Точно хотите удалить ?')) {
+          const id = parseInt(e.target.closest('.contact').dataset.id);
+          const datas = newData.filter(item => {
+            return item.id !== id;
+          });
+          console.log('id: ', id);
           e.target.closest('.contact').remove();
+
+          console.log('Data: ', datas);
+          datas = newData;
+          table.tBody.textContent = '';
         }
       }
     });

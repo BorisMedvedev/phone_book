@@ -7,7 +7,7 @@ export const data = [
   {
     name: 'Борис',
     surname: 'Петров',
-    phone: '+79514545454'
+    phone: '+7951454666'
   },
   {
     name: 'Игорь',
@@ -17,12 +17,12 @@ export const data = [
   {
     name: 'Семён',
     surname: 'Иванов',
-    phone: '+79800252525'
+    phone: '+79800252777'
   },
   {
     name: 'Вася',
     surname: 'Пупкин',
-    phone: '+79800252525'
+    phone: '+79800253333'
   },
   {
     name: 'Алексей',
