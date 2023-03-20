@@ -1,8 +1,8 @@
 import { data } from '../../data.js';
 
-const newData = JSON.parse(JSON.stringify(data));
+let newData = JSON.parse(JSON.stringify(data));
 
-const newDataCopy = [];
+let newDataCopy = [];
 
 {
   const addContactData = contact => {
@@ -333,6 +333,8 @@ const newDataCopy = [];
           e.target.closest('.contact').remove();
 
           newData = datas;
+          table.tBody.textContent = '';
+          printContact(table.tBody, newData);
           console.log('newDataCopy: ', newData);
         }
       }
