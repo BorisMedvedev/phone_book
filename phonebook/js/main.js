@@ -2,6 +2,8 @@ import { data } from '../../data.js';
 
 const newData = JSON.parse(JSON.stringify(data));
 
+const newDataCopy = [];
+
 {
   const addContactData = contact => {
     newData.push(contact);
@@ -314,12 +316,12 @@ const newData = JSON.parse(JSON.stringify(data));
       table.tBody.textContent = '';
       form.overlay.classList.remove('is-visible');
       form.form.reset();
+      table.tBody.textContent = '';
       printContact(table.tBody, newData);
       console.log('newData: ', newData);
     });
 
     table.tBody.addEventListener('click', e => {
-      e.preventDefault();
       console.log(e.target);
       if (e.target.closest('.del-icon')) {
         if (confirm('Точно хотите удалить ?')) {
@@ -330,9 +332,8 @@ const newData = JSON.parse(JSON.stringify(data));
           console.log('id: ', id);
           e.target.closest('.contact').remove();
 
-          console.log('Data: ', datas);
-          datas = newData;
-          table.tBody.textContent = '';
+          newData = datas;
+          console.log('newDataCopy: ', newData);
         }
       }
     });
