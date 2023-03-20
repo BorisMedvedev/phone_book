@@ -3,7 +3,9 @@ let newDataCopy = [];
 {
   const getStorage = key => {
     let unique = localStorage.getItem(key);
-    newDataCopy = JSON.parse(unique);
+    if (unique !== '' && unique !== null) {
+      newDataCopy = JSON.parse(unique);
+    }
     return newDataCopy;
   };
 
@@ -152,7 +154,6 @@ let newDataCopy = [];
   const printContact = (app, arr) => {
     const allRow = arr.map(createRow);
     app.append(...allRow);
-
     return allRow;
   };
 
@@ -304,7 +305,6 @@ let newDataCopy = [];
 
     buttonGroup.btns[1].addEventListener('click', () => {
       const del = document.querySelectorAll('.delete');
-
       del.forEach(element => {
         element.classList.toggle('is-visible');
       });
@@ -321,12 +321,10 @@ let newDataCopy = [];
 
       addContactData(newContact);
       table.tBody.textContent = '';
+      setStorage('key', newDataCopy);
+      printContact(table.tBody, newDataCopy);
       form.overlay.classList.remove('is-visible');
       form.form.reset();
-      setStorage('key', newDataCopy);
-      table.tBody.textContent = '';
-      printContact(table.tBody, newDataCopy);
-      console.log('newData: ', newDataCopy);
     });
 
     const removeStorage = e => {
@@ -341,6 +339,11 @@ let newDataCopy = [];
 
           newDataCopy = datas;
           table.tBody.textContent = '';
+
+          const del = document.querySelectorAll('.delete');
+          del.forEach(element => {
+            element.classList.toggle('is-visible');
+          });
 
           setStorage('key', newDataCopy);
           printContact(table.tBody, newDataCopy);
