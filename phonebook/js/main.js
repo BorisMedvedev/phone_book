@@ -123,6 +123,7 @@ let newDataCopy = [];
 
     tr.setAttribute('data-id', parseInt(phone));
     tr.id = parseInt(phone);
+
     for (let i = 0; i < newDataCopy.length; i++) {
       newDataCopy[i].id = parseInt(newDataCopy[i].phone);
     }
@@ -309,8 +310,6 @@ let newDataCopy = [];
       });
     });
 
-    getStorage('key');
-
     form.form.addEventListener('submit', e => {
       e.preventDefault();
 
@@ -330,26 +329,29 @@ let newDataCopy = [];
       console.log('newData: ', newDataCopy);
     });
 
-    table.tBody.addEventListener('click', e => {
-      console.log(e.target);
+    const removeStorage = e => {
       if (e.target.closest('.del-icon')) {
         if (confirm('Точно хотите удалить ?')) {
           const id = parseInt(e.target.closest('.contact').dataset.id);
           const datas = newDataCopy.filter(item => {
             return item.id !== id;
           });
-          console.log('id: ', id);
+
           e.target.closest('.contact').remove();
 
           newDataCopy = datas;
           table.tBody.textContent = '';
+
           setStorage('key', newDataCopy);
           printContact(table.tBody, newDataCopy);
         }
       }
-    });
-    table.tBody.textContent = '';
+    };
 
+    table.tBody.addEventListener('click', removeStorage);
+
+    table.tBody.textContent = '';
+    getStorage('key');
     printContact(table.tBody, newDataCopy);
   };
 
