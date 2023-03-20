@@ -1,12 +1,20 @@
-import { data } from '../../data.js';
-
-let newData = JSON.parse(JSON.stringify(data));
+let newDataCopy = [];
 
 {
-  const addContactData = contact => {
-    newData.push(contact);
+  const getStorage = key => {
+    let unique = localStorage.getItem(key);
+    newDataCopy = JSON.parse(unique);
+    return newDataCopy;
+  };
 
-    return newData;
+  const setStorage = (key, arr) => {
+    localStorage.setItem(key, JSON.stringify(arr));
+  };
+
+  const addContactData = contact => {
+    newDataCopy.push(contact);
+
+    return newDataCopy;
   };
 
   const createContainer = () => {
@@ -102,7 +110,7 @@ let newData = JSON.parse(JSON.stringify(data));
     };
   };
 
-  const createRow = ({ name: firstName, surname, phone, id }) => {
+  const createRow = ({ name: firstName, surname, phone }) => {
     const tr = document.createElement('tr');
     const tdDel = document.createElement('td');
     const tdName = document.createElement('td');
@@ -115,8 +123,8 @@ let newData = JSON.parse(JSON.stringify(data));
 
     tr.setAttribute('data-id', parseInt(phone));
     tr.id = parseInt(phone);
-    for (let i = 0; i < newData.length; i++) {
-      newData[i].id = parseInt(newData[i].phone);
+    for (let i = 0; i < newDataCopy.length; i++) {
+      newDataCopy[i].id = parseInt(newDataCopy[i].phone);
     }
 
     tr.classList.add('contact');
@@ -139,7 +147,7 @@ let newData = JSON.parse(JSON.stringify(data));
 
     return tr;
   };
-  console.log(newData);
+
   const printContact = (app, arr) => {
     const allRow = arr.map(createRow);
     app.append(...allRow);
@@ -263,13 +271,13 @@ let newData = JSON.parse(JSON.stringify(data));
     let dir = true;
     const sort = () => {
       table.tBody.innerHTML = '';
-      printContact(table.tBody, sortTable(newData, 'name', dir));
+      printContact(table.tBody, sortTable(newDataCopy, 'name', dir));
       dir = !dir;
     };
 
     const sortSur = () => {
       table.tBody.innerHTML = '';
-      printContact(table.tBody, sortTable(newData, 'surname', dir));
+      printContact(table.tBody, sortTable(newDataCopy, 'surname', dir));
       dir = !dir;
     };
 
@@ -277,7 +285,7 @@ let newData = JSON.parse(JSON.stringify(data));
     header.haderContainer.append(logo);
     main.mainContainer.append(buttonGroup.btnWrapper);
     main.mainContainer.append(table.table);
-    printContact(table.tBody, newData);
+    printContact(table.tBody, newDataCopy);
 
     app.append(header, main);
     table.thName.addEventListener('click', sort);
@@ -301,6 +309,8 @@ let newData = JSON.parse(JSON.stringify(data));
       });
     });
 
+    getStorage('key');
+
     form.form.addEventListener('submit', e => {
       e.preventDefault();
 
@@ -314,9 +324,10 @@ let newData = JSON.parse(JSON.stringify(data));
       table.tBody.textContent = '';
       form.overlay.classList.remove('is-visible');
       form.form.reset();
+      setStorage('key', newDataCopy);
       table.tBody.textContent = '';
-      printContact(table.tBody, newData);
-      console.log('newData: ', newData);
+      printContact(table.tBody, newDataCopy);
+      console.log('newData: ', newDataCopy);
     });
 
     table.tBody.addEventListener('click', e => {
@@ -324,19 +335,22 @@ let newData = JSON.parse(JSON.stringify(data));
       if (e.target.closest('.del-icon')) {
         if (confirm('Точно хотите удалить ?')) {
           const id = parseInt(e.target.closest('.contact').dataset.id);
-          const datas = newData.filter(item => {
+          const datas = newDataCopy.filter(item => {
             return item.id !== id;
           });
           console.log('id: ', id);
           e.target.closest('.contact').remove();
 
-          newData = datas;
+          newDataCopy = datas;
           table.tBody.textContent = '';
-          printContact(table.tBody, newData);
-          console.log('newDataCopy: ', newData);
+          setStorage('key', newDataCopy);
+          printContact(table.tBody, newDataCopy);
         }
       }
     });
+    table.tBody.textContent = '';
+
+    printContact(table.tBody, newDataCopy);
   };
 
   window.phoneBookInit = init;
