@@ -2,8 +2,6 @@ import { data } from '../../data.js';
 
 let newData = JSON.parse(JSON.stringify(data));
 
-let newDataCopy = [];
-
 {
   const addContactData = contact => {
     newData.push(contact);
