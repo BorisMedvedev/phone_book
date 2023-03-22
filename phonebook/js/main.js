@@ -249,6 +249,16 @@ let newDataCopy = [];
     };
   };
 
+  const uniqueNumber = () => {
+    let date = Date.now();
+    if (date <= uniqueNumber.previous) {
+      date = ++uniqueNumber.previous;
+    } else {
+      uniqueNumber.previous = date;
+    }
+    return date;
+  };
+
   const init = (selector, title) => {
     const app = document.querySelector('#book');
     const header = createHeader();
@@ -301,6 +311,8 @@ let newDataCopy = [];
 
     buttonGroup.btns[0].addEventListener('click', () => {
       form.overlay.classList.add('is-visible');
+      const ID = uniqueNumber();
+      console.log('ID: ', ID);
     });
 
     buttonGroup.btns[1].addEventListener('click', () => {
@@ -318,7 +330,15 @@ let newDataCopy = [];
         surname: form.inputSurName.value,
         phone: form.inputPhone.value
       };
-
+      if (form.inputName.value === '') {
+        return;
+      }
+      if (form.inputSurName.value === '') {
+        return;
+      }
+      if (form.inputPhone.value === '') {
+        return;
+      }
       addContactData(newContact);
       table.tBody.textContent = '';
       setStorage('key', newDataCopy);
