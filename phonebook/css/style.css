@@ -28,7 +28,6 @@ body {
   padding: 0 15px;
   max-width: 1170px;
   width: 100%;
-
 }
 
 a {
@@ -116,6 +115,7 @@ table {
 }
 
 .btn-wrapper {
+
   margin-bottom: 30px;
 }
 
@@ -141,13 +141,17 @@ table {
   padding-bottom: 20px;
 }
 
+.form-group {
+  width: 100%;
+}
+
 .form-label {
-  width: 230px;
+  width: 100%;
 }
 
 .form-input {
   height: 40px;
-  width: 230px;
+  width: 100%;
 }
 
 .form-overlay {
@@ -177,12 +181,11 @@ table {
 
 .close {
   position: absolute;
-  right: 20px;
-  top: 20px;
+  right: 15px;
+  top: 15px;
   display: block;
-  width: 20px;
-  height: 20px;
-  background-size: contain;
+  width: 30px;
+  height: 30px;
   background-repeat: no-repeat;
   background-position: center;
   background-image: url('../img/del.svg');
