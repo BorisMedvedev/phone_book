@@ -132,13 +132,10 @@ let newDataCopy = [];
     const linkPhone = document.createElement('a');
     const buttonDel = document.createElement('button');
     const buttonEdit = document.createElement('button');
+    let ID = uniqueNumber();
 
-    tr.setAttribute('data-id', parseInt(phone));
-    tr.id = parseInt(phone);
-
-    for (let i = 0; i < newDataCopy.length; i++) {
-      newDataCopy[i].id = parseInt(newDataCopy[i].phone);
-    }
+    tr.setAttribute('data-id', parseInt(ID));
+    tr.id = parseInt(ID);
 
     tr.classList.add('contact');
     buttonEdit.classList.add('btn-edit');
@@ -192,7 +189,6 @@ let newDataCopy = [];
     const btnsGroup = createButtonsGroup([
       {
         className: 'btn btn-primary mr-3 mt-3',
-        type: 'button',
         text: 'Сохранить'
       },
       {
@@ -328,6 +324,7 @@ let newDataCopy = [];
         surname: form.inputSurName.value,
         phone: form.inputPhone.value
       };
+
       if (form.inputName.value.trim() === '') {
         alert('Введите имя');
         return;
