@@ -112,6 +112,16 @@ let newDataCopy = [];
     };
   };
 
+  const uniqueNumber = () => {
+    let date = Date.now();
+    if (date <= uniqueNumber.previous) {
+      date = ++uniqueNumber.previous;
+    } else {
+      uniqueNumber.previous = date;
+    }
+    return date;
+  };
+
   const createRow = ({ name: firstName, surname, phone }) => {
     const tr = document.createElement('tr');
     const tdDel = document.createElement('td');
@@ -122,16 +132,6 @@ let newDataCopy = [];
     const linkPhone = document.createElement('a');
     const buttonDel = document.createElement('button');
     const buttonEdit = document.createElement('button');
-
-    const uniqueNumber = () => {
-      let date = Date.now();
-      if (date <= uniqueNumber.previous) {
-        date = ++uniqueNumber.previous;
-      } else {
-        uniqueNumber.previous = date;
-      }
-      return date;
-    };
 
     tr.setAttribute('data-id', parseInt(phone));
     tr.id = parseInt(phone);
@@ -192,7 +192,7 @@ let newDataCopy = [];
     const btnsGroup = createButtonsGroup([
       {
         className: 'btn btn-primary mr-3 mt-3',
-
+        type: 'button',
         text: 'Сохранить'
       },
       {
@@ -328,21 +328,24 @@ let newDataCopy = [];
         surname: form.inputSurName.value,
         phone: form.inputPhone.value
       };
-      if (form.inputName.value === '') {
+      if (form.inputName.value.trim() === '') {
+        alert('Введите имя');
         return;
       }
-      if (form.inputSurName.value === '') {
+      if (form.inputSurName.value.trim() === '') {
+        alert('Введите фамилию');
         return;
       }
-      if (form.inputPhone.value === '') {
+      if (form.inputPhone.value.trim() === '') {
+        alert('Введите телефон');
         return;
       }
       addContactData(newContact);
       table.tBody.textContent = '';
-      setStorage('key', newDataCopy);
-      printContact(table.tBody, newDataCopy);
       form.overlay.classList.remove('is-visible');
       form.form.reset();
+      setStorage('key', newDataCopy);
+      printContact(table.tBody, newDataCopy);
     });
 
     const removeStorage = e => {
