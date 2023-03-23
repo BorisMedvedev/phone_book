@@ -123,6 +123,16 @@ let newDataCopy = [];
     const buttonDel = document.createElement('button');
     const buttonEdit = document.createElement('button');
 
+    const uniqueNumber = () => {
+      let date = Date.now();
+      if (date <= uniqueNumber.previous) {
+        date = ++uniqueNumber.previous;
+      } else {
+        uniqueNumber.previous = date;
+      }
+      return date;
+    };
+
     tr.setAttribute('data-id', parseInt(phone));
     tr.id = parseInt(phone);
 
@@ -249,16 +259,6 @@ let newDataCopy = [];
     };
   };
 
-  const uniqueNumber = () => {
-    let date = Date.now();
-    if (date <= uniqueNumber.previous) {
-      date = ++uniqueNumber.previous;
-    } else {
-      uniqueNumber.previous = date;
-    }
-    return date;
-  };
-
   const init = (selector, title) => {
     const app = document.querySelector('#book');
     const header = createHeader();
@@ -311,8 +311,6 @@ let newDataCopy = [];
 
     buttonGroup.btns[0].addEventListener('click', () => {
       form.overlay.classList.add('is-visible');
-      const ID = uniqueNumber();
-      console.log('ID: ', ID);
     });
 
     buttonGroup.btns[1].addEventListener('click', () => {
@@ -376,6 +374,7 @@ let newDataCopy = [];
     table.tBody.textContent = '';
     getStorage('key');
     printContact(table.tBody, newDataCopy);
+    console.log('newDataCopy: ', newDataCopy);
   };
 
   window.phoneBookInit = init;
