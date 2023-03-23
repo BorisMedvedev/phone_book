@@ -112,16 +112,6 @@ let newDataCopy = [];
     };
   };
 
-  const uniqueNumber = () => {
-    let date = Date.now();
-    if (date <= uniqueNumber.previous) {
-      date = ++uniqueNumber.previous;
-    } else {
-      uniqueNumber.previous = date;
-    }
-    return date;
-  };
-
   const createRow = ({ name: firstName, surname, phone }) => {
     const tr = document.createElement('tr');
     const tdDel = document.createElement('td');
@@ -132,11 +122,9 @@ let newDataCopy = [];
     const linkPhone = document.createElement('a');
     const buttonDel = document.createElement('button');
     const buttonEdit = document.createElement('button');
-    let ID = uniqueNumber();
 
-    tr.setAttribute('data-id', parseInt(ID));
-    tr.id = parseInt(ID);
-
+    tr.setAttribute('data-id', parseInt(newDataCopy.id));
+    tr.id = parseInt(newDataCopy.id);
     tr.classList.add('contact');
     buttonEdit.classList.add('btn-edit');
 
@@ -255,6 +243,16 @@ let newDataCopy = [];
     };
   };
 
+  const uniqueNumber = () => {
+    let date = Date.now();
+    if (date <= uniqueNumber.previous) {
+      date = ++uniqueNumber.previous;
+    } else {
+      uniqueNumber.previous = date;
+    }
+    return date;
+  };
+
   const init = (selector, title) => {
     const app = document.querySelector('#book');
     const header = createHeader();
@@ -318,8 +316,9 @@ let newDataCopy = [];
 
     form.form.addEventListener('submit', e => {
       e.preventDefault();
-
+      let id = uniqueNumber();
       const newContact = {
+        id: id,
         name: form.inputName.value,
         surname: form.inputSurName.value,
         phone: form.inputPhone.value
