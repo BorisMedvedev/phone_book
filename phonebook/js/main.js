@@ -123,8 +123,12 @@ let newDataCopy = [];
     const buttonDel = document.createElement('button');
     const buttonEdit = document.createElement('button');
 
-    tr.setAttribute('data-id', parseInt(newDataCopy.id));
-    tr.id = parseInt(newDataCopy.id);
+    for (let i = 0; i < newDataCopy.length; i++) {
+      const element = newDataCopy[i].id;
+      console.log('element: ', element);
+      tr.setAttribute('data-id', parseInt(element));
+    }
+
     tr.classList.add('contact');
     buttonEdit.classList.add('btn-edit');
 
