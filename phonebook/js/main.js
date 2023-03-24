@@ -1,3 +1,5 @@
+export let newDataCopy = [];
+
 import { setStorage } from './modules/setStorage.js';
 import { getStorage } from './modules/getStorage.js';
 import { createLogo } from './modules/createLogo.js';
@@ -11,9 +13,7 @@ import { printContact } from './modules/printContact.js';
 import { sortTable } from './modules/sortTable.js';
 import { uniqueNumber } from './modules/uniqueNumber.js';
 
-export let newDataCopy = [];
-
-export const init = (selector, title) => {
+export const init = (selector, title, key) => {
   const app = document.querySelector('#book');
   const header = createHeader();
   const logo = createLogo(title);
@@ -120,7 +120,7 @@ export const init = (selector, title) => {
           element.classList.toggle('is-visible');
         });
 
-        setStorage('key', newDataCopy);
+        setStorage(key, newDataCopy);
         printContact(table.tBody, newDataCopy);
       }
     }
@@ -129,7 +129,7 @@ export const init = (selector, title) => {
   table.tBody.addEventListener('click', removeStorage);
 
   table.tBody.textContent = '';
-  getStorage('key');
+  getStorage(key);
   printContact(table.tBody, newDataCopy);
 };
 window.phoneBookInit = init;
