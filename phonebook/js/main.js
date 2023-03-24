@@ -60,7 +60,7 @@ let newDataCopy = [];
     const btnWrapper = document.createElement('div');
     btnWrapper.classList.add('btn-wrapper');
 
-    const btns = params.map(({className, type, text}) => {
+    const btns = params.map(({ className, type, text }) => {
       const button = document.createElement('button');
 
       button.type = type;
@@ -226,12 +226,12 @@ let newDataCopy = [];
     formGroupSurName.append(labelSurName);
     formGroupPhone.append(labelPhone);
     form.append(
-        close,
-        title,
-        formGroupName,
-        formGroupSurName,
-        formGroupPhone,
-        btnsGroup.btnWrapper,
+      close,
+      title,
+      formGroupName,
+      formGroupSurName,
+      formGroupPhone,
+      btnsGroup.btnWrapper,
     );
     overlay.append(form);
 
