@@ -2,7 +2,7 @@ let newDataCopy = [];
 
 {
   const getStorage = key => {
-    let unique = localStorage.getItem(key);
+    const unique = localStorage.getItem(key);
     if (unique !== '' && unique !== null) {
       newDataCopy = JSON.parse(unique);
     }
@@ -60,7 +60,7 @@ let newDataCopy = [];
     const btnWrapper = document.createElement('div');
     btnWrapper.classList.add('btn-wrapper');
 
-    const btns = params.map(({ className, type, text }) => {
+    const btns = params.map(({className, type, text}) => {
       const button = document.createElement('button');
 
       button.type = type;
@@ -74,7 +74,7 @@ let newDataCopy = [];
 
     return {
       btnWrapper,
-      btns
+      btns,
     };
   };
 
@@ -108,11 +108,11 @@ let newDataCopy = [];
       tBody,
       thDel,
       thName,
-      thSurName
+      thSurName,
     };
   };
 
-  const createRow = ({ name: firstName, surname, phone }) => {
+  const createRow = ({id, name, surname, phone}) => {
     const tr = document.createElement('tr');
     const tdDel = document.createElement('td');
     const tdName = document.createElement('td');
@@ -123,11 +123,9 @@ let newDataCopy = [];
     const buttonDel = document.createElement('button');
     const buttonEdit = document.createElement('button');
 
-    for (let i = 0; i < newDataCopy.length; i++) {
-      const element = newDataCopy[i].id;
-      console.log('element: ', element);
-      tr.setAttribute('data-id', parseInt(element));
-    }
+
+    tr.id = id;
+    tr.setAttribute('data-id', id);
 
     tr.classList.add('contact');
     buttonEdit.classList.add('btn-edit');
@@ -135,7 +133,7 @@ let newDataCopy = [];
     tdDel.classList.add('delete');
     buttonDel.classList.add('del-icon');
 
-    tdName.textContent = firstName;
+    tdName.textContent = name;
     tdSurename.textContent = surname;
     linkPhone.href = `tel:${phone}`;
     linkPhone.textContent = phone;
@@ -159,8 +157,9 @@ let newDataCopy = [];
   const sortTable = (arr, prop, dir) => {
     const arrCopy = [...arr];
     return arrCopy.sort((stA, stB) => {
-      if (!dir == false ? stA[prop] < stB[prop] : stA[prop] > stB[prop])
+      if (!dir === false ? stA[prop] < stB[prop] : stA[prop] > stB[prop]) {
         return -1;
+      }
     });
   };
 
@@ -181,13 +180,13 @@ let newDataCopy = [];
     const btnsGroup = createButtonsGroup([
       {
         className: 'btn btn-primary mr-3 mt-3',
-        text: 'Сохранить'
+        text: 'Сохранить',
       },
       {
         className: 'btn btn-danger mt-3',
         type: 'reset',
-        text: 'Отмена'
-      }
+        text: 'Отмена',
+      },
     ]);
 
     formGroupName.classList.add('form-group');
@@ -227,12 +226,12 @@ let newDataCopy = [];
     formGroupSurName.append(labelSurName);
     formGroupPhone.append(labelPhone);
     form.append(
-      close,
-      title,
-      formGroupName,
-      formGroupSurName,
-      formGroupPhone,
-      btnsGroup.btnWrapper
+        close,
+        title,
+        formGroupName,
+        formGroupSurName,
+        formGroupPhone,
+        btnsGroup.btnWrapper,
     );
     overlay.append(form);
 
@@ -243,7 +242,7 @@ let newDataCopy = [];
       inputSurName,
       inputPhone,
       close,
-      btnsGroup
+      btnsGroup,
     };
   };
 
@@ -266,13 +265,13 @@ let newDataCopy = [];
       {
         className: 'btn btn-primary mr-3',
         type: 'button',
-        text: 'Добавить'
+        text: 'Добавить',
       },
       {
         className: 'btn btn-danger',
         type: 'button',
-        text: 'Удалить'
-      }
+        text: 'Удалить',
+      },
     ]);
 
     const table = createTable();
@@ -320,12 +319,12 @@ let newDataCopy = [];
 
     form.form.addEventListener('submit', e => {
       e.preventDefault();
-      let id = uniqueNumber();
+      const id = uniqueNumber();
       const newContact = {
-        id: id,
+        id,
         name: form.inputName.value,
         surname: form.inputSurName.value,
-        phone: form.inputPhone.value
+        phone: form.inputPhone.value,
       };
 
       if (form.inputName.value.trim() === '') {
@@ -352,9 +351,7 @@ let newDataCopy = [];
       if (e.target.closest('.del-icon')) {
         if (confirm('Точно хотите удалить ?')) {
           const id = parseInt(e.target.closest('.contact').dataset.id);
-          const datas = newDataCopy.filter(item => {
-            return item.id !== id;
-          });
+          const datas = newDataCopy.filter(item => item.id !== id);
 
           e.target.closest('.contact').remove();
 
@@ -377,7 +374,6 @@ let newDataCopy = [];
     table.tBody.textContent = '';
     getStorage('key');
     printContact(table.tBody, newDataCopy);
-    console.log('newDataCopy: ', newDataCopy);
   };
 
   window.phoneBookInit = init;
