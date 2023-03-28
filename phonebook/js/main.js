@@ -1,4 +1,6 @@
-export let newDataCopy = [];
+export let dataCopyObj = {
+  newDataCopy: [],
+};
 
 import { setStorage } from './modules/setStorage.js';
 import { getStorage } from './modules/getStorage.js';
@@ -37,13 +39,13 @@ export const init = (selector, title, key) => {
   let dir = true;
   const sort = () => {
     table.tBody.innerHTML = '';
-    printContact(table.tBody, sortTable(newDataCopy, 'name', dir));
+    printContact(table.tBody, sortTable(dataCopyObj.newDataCopy, 'name', dir));
     dir = !dir;
   };
 
   const sortSur = () => {
     table.tBody.innerHTML = '';
-    printContact(table.tBody, sortTable(newDataCopy, 'surname', dir));
+    printContact(table.tBody, sortTable(dataCopyObj.newDataCopy, 'surname', dir));
     dir = !dir;
   };
 
@@ -51,7 +53,7 @@ export const init = (selector, title, key) => {
   header.haderContainer.append(logo);
   main.mainContainer.append(buttonGroup.btnWrapper);
   main.mainContainer.append(table.table);
-  printContact(table.tBody, newDataCopy);
+  printContact(table.tBody, dataCopyObj.newDataCopy);
 
   app.append(header, main);
   table.thName.addEventListener('click', sort);
@@ -100,19 +102,19 @@ export const init = (selector, title, key) => {
     table.tBody.textContent = '';
     form.overlay.classList.remove('is-visible');
     form.form.reset();
-    setStorage('key', newDataCopy);
-    printContact(table.tBody, newDataCopy);
+    setStorage('key', dataCopyObj.newDataCopy);
+    printContact(table.tBody, dataCopyObj.newDataCopy);
   });
 
   const removeStorage = e => {
     if (e.target.closest('.del-icon')) {
       if (confirm('Точно хотите удалить ?')) {
         const id = parseInt(e.target.closest('.contact').dataset.id);
-        const datas = newDataCopy.filter(item => item.id !== id);
+        const datas = dataCopyObj.newDataCopy.filter(item => item.id !== id);
 
         e.target.closest('.contact').remove();
 
-        newDataCopy = datas;
+        dataCopyObj.newDataCopy = datas;
         table.tBody.textContent = '';
 
         const del = document.querySelectorAll('.delete');
@@ -120,8 +122,8 @@ export const init = (selector, title, key) => {
           element.classList.toggle('is-visible');
         });
 
-        setStorage(key, newDataCopy);
-        printContact(table.tBody, newDataCopy);
+        setStorage(key, dataCopyObj.newDataCopy);
+        printContact(table.tBody, dataCopyObj.newDataCopy);
       }
     }
   };
@@ -130,6 +132,6 @@ export const init = (selector, title, key) => {
 
   table.tBody.textContent = '';
   getStorage(key);
-  printContact(table.tBody, newDataCopy);
+  printContact(table.tBody, dataCopyObj.newDataCopy);
 };
 window.phoneBookInit = init;

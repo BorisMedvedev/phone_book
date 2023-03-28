@@ -1,7 +1,7 @@
-import { newDataCopy } from '../main.js';
+import { dataCopyObj } from '../main.js';
 
 export const addContactData = contact => {
-  newDataCopy.push(contact);
+  dataCopyObj.newDataCopy.push(contact);
 
-  return newDataCopy;
+  return dataCopyObj;
 };
