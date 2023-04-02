@@ -1,19 +1,24 @@
-export let dataCopyObj = {
-  newDataCopy: [],
-};
+import {
+  createForm,
+  createHeader,
+  createLogo,
+  createMain,
+  createTable,
+  createButtonsGroup
+} from './modules/createElements.js';
 
-import { setStorage } from './modules/setStorage.js';
-import { getStorage } from './modules/getStorage.js';
-import { createLogo } from './modules/createLogo.js';
-import { createButtonsGroup } from './modules/createButtonsGroup.js';
-import { createMain } from './modules/createMain.js';
-import { createHeader } from './modules/createHeader.js';
-import { createTable } from './modules/createTable.js';
-import { createForm } from './modules/createForm.js';
-import { addContactData } from './modules/addContactData.js';
-import { printContact } from './modules/printContact.js';
-import { sortTable } from './modules/sortTable.js';
-import { uniqueNumber } from './modules/uniqueNumber.js';
+import {
+  uniqueNumber,
+  sortTable,
+  addContactData,
+  printContacts
+} from './modules/dataManagement.js';
+
+import { setStorage, getStorage } from './modules/dataLocalStorage.js';
+
+export let dataCopyObj = {
+  newDataCopy: []
+};
 
 export const init = (selector, title, key) => {
   const app = document.querySelector('#book');
@@ -39,13 +44,16 @@ export const init = (selector, title, key) => {
   let dir = true;
   const sort = () => {
     table.tBody.innerHTML = '';
-    printContact(table.tBody, sortTable(dataCopyObj.newDataCopy, 'name', dir));
+    printContacts(table.tBody, sortTable(dataCopyObj.newDataCopy, 'name', dir));
     dir = !dir;
   };
 
   const sortSur = () => {
     table.tBody.innerHTML = '';
-    printContact(table.tBody, sortTable(dataCopyObj.newDataCopy, 'surname', dir));
+    printContacts(
+      table.tBody,
+      sortTable(dataCopyObj.newDataCopy, 'surname', dir)
+    );
     dir = !dir;
   };
 
@@ -53,7 +61,7 @@ export const init = (selector, title, key) => {
   header.haderContainer.append(logo);
   main.mainContainer.append(buttonGroup.btnWrapper);
   main.mainContainer.append(table.table);
-  printContact(table.tBody, dataCopyObj.newDataCopy);
+  printContacts(table.tBody, dataCopyObj.newDataCopy);
 
   app.append(header, main);
   table.thName.addEventListener('click', sort);
@@ -75,6 +83,28 @@ export const init = (selector, title, key) => {
       element.classList.toggle('is-visible');
     });
   });
+
+  const removeStorage = e => {
+    if (e.target.closest('.del-icon')) {
+      if (confirm('Точно хотите удалить ?')) {
+        const id = parseInt(e.target.closest('.contact').dataset.id);
+        const datas = dataCopyObj.newDataCopy.filter(item => item.id !== id);
+
+        e.target.closest('.contact').remove();
+
+        dataCopyObj.newDataCopy = datas;
+        table.tBody.textContent = '';
+
+        const del = document.querySelectorAll('.delete');
+        del.forEach(element => {
+          element.classList.toggle('is-visible');
+        });
+
+        setStorage(key, dataCopyObj.newDataCopy);
+        printContacts(table.tBody, dataCopyObj.newDataCopy);
+      }
+    }
+  };
 
   form.form.addEventListener('submit', e => {
     e.preventDefault();
@@ -103,35 +133,13 @@ export const init = (selector, title, key) => {
     form.overlay.classList.remove('is-visible');
     form.form.reset();
     setStorage('key', dataCopyObj.newDataCopy);
-    printContact(table.tBody, dataCopyObj.newDataCopy);
+    printContacts(table.tBody, dataCopyObj.newDataCopy);
   });
-
-  const removeStorage = e => {
-    if (e.target.closest('.del-icon')) {
-      if (confirm('Точно хотите удалить ?')) {
-        const id = parseInt(e.target.closest('.contact').dataset.id);
-        const datas = dataCopyObj.newDataCopy.filter(item => item.id !== id);
-
-        e.target.closest('.contact').remove();
-
-        dataCopyObj.newDataCopy = datas;
-        table.tBody.textContent = '';
-
-        const del = document.querySelectorAll('.delete');
-        del.forEach(element => {
-          element.classList.toggle('is-visible');
-        });
-
-        setStorage(key, dataCopyObj.newDataCopy);
-        printContact(table.tBody, dataCopyObj.newDataCopy);
-      }
-    }
-  };
 
   table.tBody.addEventListener('click', removeStorage);
 
   table.tBody.textContent = '';
   getStorage(key);
-  printContact(table.tBody, dataCopyObj.newDataCopy);
+  printContacts(table.tBody, dataCopyObj.newDataCopy);
 };
 window.phoneBookInit = init;
