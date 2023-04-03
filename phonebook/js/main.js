@@ -11,7 +11,8 @@ import {
   uniqueNumber,
   sortTable,
   addContactData,
-  printContacts
+  printContacts,
+  removeStorage
 } from './modules/dataManagement.js';
 
 import { setStorage, getStorage } from './modules/dataLocalStorage.js';
@@ -84,28 +85,6 @@ export const init = (selector, title, key) => {
     });
   });
 
-  const removeStorage = e => {
-    if (e.target.closest('.del-icon')) {
-      if (confirm('Точно хотите удалить ?')) {
-        const id = parseInt(e.target.closest('.contact').dataset.id);
-        const datas = dataCopyObj.newDataCopy.filter(item => item.id !== id);
-
-        e.target.closest('.contact').remove();
-
-        dataCopyObj.newDataCopy = datas;
-        table.tBody.textContent = '';
-
-        const del = document.querySelectorAll('.delete');
-        del.forEach(element => {
-          element.classList.toggle('is-visible');
-        });
-
-        setStorage(key, dataCopyObj.newDataCopy);
-        printContacts(table.tBody, dataCopyObj.newDataCopy);
-      }
-    }
-  };
-
   form.form.addEventListener('submit', e => {
     e.preventDefault();
     const id = uniqueNumber();
@@ -142,4 +121,5 @@ export const init = (selector, title, key) => {
   getStorage(key);
   printContacts(table.tBody, dataCopyObj.newDataCopy);
 };
-window.phoneBookInit = init;
+
+init('#book', 'Boris', 'key');

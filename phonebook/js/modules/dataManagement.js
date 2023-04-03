@@ -1,5 +1,6 @@
 import { dataCopyObj } from '../main.js';
-import { createRow } from './createElements.js';
+import { createRow, createTable } from './createElements.js';
+import { setStorage } from './dataLocalStorage.js';
 
 export const sortTable = (arr, prop, dir) => {
   const arrCopy = [...arr];
@@ -30,4 +31,26 @@ export const uniqueNumber = () => {
     uniqueNumber.previous = date;
   }
   return date;
+};
+
+export const removeStorage = e => {
+  if (e.target.closest('.del-icon')) {
+    if (confirm('Точно хотите удалить ?')) {
+      const id = parseInt(e.target.closest('.contact').dataset.id);
+      const datas = dataCopyObj.newDataCopy.filter(item => item.id !== id);
+
+      e.target.closest('.contact').remove();
+
+      dataCopyObj.newDataCopy = datas;
+      table.tBody.textContent = '';
+
+      const del = document.querySelectorAll('.delete');
+      del.forEach(element => {
+        element.classList.toggle('is-visible');
+      });
+
+      setStorage(key, dataCopyObj.newDataCopy);
+      printContacts(table.tBody, dataCopyObj.newDataCopy);
+    }
+  }
 };
