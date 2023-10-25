@@ -8,6 +8,7 @@ export const createRow = (data) => {
   const linkPhone = document.createElement('a');
   const buttonDel = document.createElement('button');
   const buttonEdit = document.createElement('button');
+  const contacts = JSON.parse(localStorage.getItem('user')) || [];
 
   tr.id = data.id;
   tr.setAttribute('data-id', data.id);
@@ -30,7 +31,17 @@ export const createRow = (data) => {
   tr.append(tdDel, tdName, tdSurename, tdPhone, tdEdit);
 
   buttonDel.addEventListener('click', () => {
-    tr.remove();
+    for (let i = 0; i < contacts.length; i++) {
+      if (contacts[i].id === tr.id) {
+        tr.remove();
+        contacts.splice(i, 1);
+        const delBtns = document.querySelectorAll('.delete');
+        delBtns.forEach(element => {
+          element.classList.remove('is-visible');
+        });
+        localStorage.setItem('user', JSON.stringify(contacts));
+      }
+    }
   });
 
   return tr;
