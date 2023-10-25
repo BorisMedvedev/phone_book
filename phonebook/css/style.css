@@ -103,7 +103,7 @@ table {
   height: 18px;
   border: none;
   background-color: transparent;
-  background-image: url('../img/del.svg');
+  background-image: url("../img/del.svg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -127,7 +127,6 @@ table {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
   left: 50%;
   top: 0;
-  opacity: 0;
   transform: translateX(-50%);
   transition-property: top, opacity;
   transition-duration: 0.5s;
@@ -158,24 +157,12 @@ table {
   bottom: 0;
   height: 100%;
   left: 0;
-  opacity: 0;
   position: fixed;
   right: 0;
   top: 0;
-  transition: 0.3s ease-in-out;
-  visibility: hidden;
+  animation: fadeIn 0.5s ease-in-out;
   width: 100%;
   z-index: 1;
-}
-
-.form-overlay.is-visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-.form-overlay.is-visible .form {
-  opacity: 1;
-  top: 0;
 }
 
 .close {
@@ -187,7 +174,7 @@ table {
   height: 30px;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url('../img/del.svg');
+  background-image: url("../img/del.svg");
 }
 
 .del-icon:hover,
@@ -214,7 +201,7 @@ table {
   cursor: pointer;
   width: 20px;
   height: 20px;
-  background-image: url('../img/edit.svg');
+  background-image: url("../img/edit.svg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -227,4 +214,26 @@ table {
 
 .btn-primary {
   margin-right: 30px;
+}
+.btn-weapper {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  max-width: 268px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  width: 130px;
+}
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
