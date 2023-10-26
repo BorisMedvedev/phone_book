@@ -14,3 +14,23 @@ export const generateId = () => {
   }
   return id;
 };
+
+
+export const sortArrayOfObjects = (arr, prop, dir = 'asc') => {
+  const sortedArray = [...arr];
+
+  sortedArray.sort((objA, objB) => {
+    const valueA = objA[prop].toUpperCase();
+    const valueB = objB[prop].toUpperCase();
+
+    let compareResult = valueA.localeCompare(valueB);
+
+    if (dir === 'desc') {
+      compareResult *= -1;
+    }
+
+    return compareResult;
+  });
+
+  return sortedArray;
+};

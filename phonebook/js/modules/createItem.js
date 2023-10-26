@@ -1,3 +1,5 @@
+import {sortArrayOfObjects} from './utils.js';
+
 export const createRow = (data) => {
   const tr = document.createElement('tr');
   const tdDel = document.createElement('td');
@@ -42,6 +44,22 @@ export const createRow = (data) => {
         localStorage.setItem('user', JSON.stringify(contacts));
       }
     }
+  });
+
+  document.querySelector('.th-name').addEventListener('click', () => {
+    const sortedStudentsByName = sortArrayOfObjects(contacts, 'name');
+    document.querySelector('tbody').innerHTML = '';
+    sortedStudentsByName.forEach(item => {
+      document.querySelector('tbody').append(createRow(item));
+    });
+  });
+
+  document.querySelector('.th-surname').addEventListener('click', () => {
+    const sortedStudentsByName = sortArrayOfObjects(contacts, 'surname');
+    document.querySelector('tbody').innerHTML = '';
+    sortedStudentsByName.forEach(item => {
+      document.querySelector('tbody').append(createRow(item));
+    });
   });
 
   return tr;

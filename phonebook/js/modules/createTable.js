@@ -50,6 +50,7 @@ export const createTable = () => {
     });
   });
 
+
   return {
     container,
     table,
