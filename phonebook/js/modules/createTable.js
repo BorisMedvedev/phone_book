@@ -39,7 +39,6 @@ export const createTable = () => {
 
   addBtn.addEventListener('click', () => {
     const modalForm = createForm();
-
     document.body.append(modalForm.overlay);
   });
 

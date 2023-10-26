@@ -1,7 +1,7 @@
+import {contacts} from '../main.js';
 import {createRow} from './createItem.js';
 import {generateId} from './utils.js';
 
-const contacts = JSON.parse(localStorage.getItem('user')) || [];
 export const createForm = () => {
   const overlay = document.createElement('div');
   const form = document.createElement('form');
@@ -19,10 +19,14 @@ export const createForm = () => {
   const btnsWrapper = document.createElement('div');
   const addBtn = document.createElement('button');
   const deleteBtn = document.createElement('button');
+  const arrContacts = contacts;
+  const input = inputPhone;
+  const im = new Inputmask('+7 (999) 999-99-99');
+
+  im.mask(input);
 
   addBtn.type = 'submit';
   deleteBtn.type = 'button';
-
   addBtn.textContent = 'Сохранить';
   deleteBtn.textContent = 'Отмена';
 
@@ -59,9 +63,9 @@ export const createForm = () => {
   close.type = 'button';
   inputPhone.type = 'tel';
 
-  const input = inputPhone;
-  const im = new Inputmask('+7 (999) 999-99-99');
-  im.mask(input);
+  inputName.required = true;
+  inputSurName.required = true;
+  inputPhone.required = true;
 
   labelName.append(inputName);
   labelSurName.append(inputSurName);
@@ -78,6 +82,7 @@ export const createForm = () => {
       formGroupPhone,
       btnsWrapper,
   );
+
   overlay.append(form);
 
   document.addEventListener('click', (e) => {
@@ -94,19 +99,20 @@ export const createForm = () => {
     newTr.surname = inputSurName.value.trim();
     newTr.phone = inputPhone.value.trim();
 
-    contacts.push(newTr);
+    arrContacts.push(newTr);
     document.querySelector('tbody').append(createRow(newTr));
-    localStorage.setItem('user', JSON.stringify(contacts));
+    localStorage.setItem('user', JSON.stringify(arrContacts));
     overlay.remove();
+    document.querySelector('.btn-danger').classList.remove('remove');
   });
 
   return {
-    form,
     overlay,
+    form,
     inputName,
     inputSurName,
     inputPhone,
     close,
-
+    title,
   };
 };
