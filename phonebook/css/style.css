@@ -148,6 +148,7 @@ table {
 }
 
 .form-input {
+  padding: 5px 10px;
   height: 40px;
   width: 100%;
 }
