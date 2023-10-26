@@ -44,6 +44,10 @@ export const createRow = (data) => {
     localStorage.setItem('user', JSON.stringify(arrContacts));
     if (arrContacts.length <= 0) {
       document.querySelector('.btn-danger').classList.add('remove');
+      const deleteBtn = document.querySelectorAll('.delete');
+      deleteBtn.forEach(element => {
+        element.classList.remove('is-visible');
+      });
     } else {
       document.querySelector('.btn-danger').classList.remove('remove');
     }
