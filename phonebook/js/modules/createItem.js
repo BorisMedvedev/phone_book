@@ -1,8 +1,7 @@
-import {contacts} from '../main.js';
 import {editContactForm} from './editContactForm.js';
 import {capitalizeWords, sortArrayOfObjects} from './utils.js';
 
-export const createRow = (data) => {
+export const createRow = (data, contacts) => {
   const tr = document.createElement('tr');
   const tdDel = document.createElement('td');
   const tdName = document.createElement('td');
@@ -12,7 +11,7 @@ export const createRow = (data) => {
   const linkPhone = document.createElement('a');
   const buttonDel = document.createElement('button');
   const buttonEdit = document.createElement('button');
-  const arrContacts = contacts;
+
 
   tr.id = data.id;
   tr.setAttribute('data-id', data.id);
@@ -35,14 +34,14 @@ export const createRow = (data) => {
   tr.append(tdDel, tdName, tdSurename, tdPhone, tdEdit);
 
   const del = () => {
-    for (let i = 0; i < arrContacts.length; i++) {
-      if (arrContacts[i].id === tr.id) {
+    for (let i = 0; i < contacts.length; i++) {
+      if (contacts[i].id === tr.id) {
         tr.remove();
-        arrContacts.splice(i, 1);
+        contacts.splice(i, 1);
       }
     }
-    localStorage.setItem('user', JSON.stringify(arrContacts));
-    if (arrContacts.length <= 0) {
+    localStorage.setItem('user', JSON.stringify(contacts));
+    if (contacts.length <= 0) {
       document.querySelector('.btn-danger').classList.add('remove');
       const deleteBtn = document.querySelectorAll('.delete');
       deleteBtn.forEach(element => {
@@ -60,19 +59,19 @@ export const createRow = (data) => {
   document.querySelector('.th-name').addEventListener('click', () => {
     isDescending = !isDescending;
     const sortedStudentsByName = sortArrayOfObjects(
-        arrContacts, 'name', isDescending ? 'desc' : 'asc');
+        contacts, 'name', isDescending ? 'desc' : 'asc');
     document.querySelector('tbody').innerHTML = '';
     sortedStudentsByName.forEach((item) => {
-      document.querySelector('tbody').append(createRow(item));
+      document.querySelector('tbody').append(createRow(item, contacts));
     });
   });
   document.querySelector('.th-surname').addEventListener('click', () => {
     isDescending = !isDescending;
     const sortedStudentsByName = sortArrayOfObjects(
-        arrContacts, 'surname', isDescending ? 'desc' : 'asc');
+        contacts, 'surname', isDescending ? 'desc' : 'asc');
     document.querySelector('tbody').innerHTML = '';
     sortedStudentsByName.forEach((item) => {
-      document.querySelector('tbody').append(createRow(item));
+      document.querySelector('tbody').append(createRow(item, contacts));
     });
   });
 

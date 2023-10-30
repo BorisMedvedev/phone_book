@@ -1,8 +1,7 @@
-import {contacts} from '../main.js';
 import {createRow} from './createItem.js';
 import {generateId} from './utils.js';
 
-export const createForm = () => {
+export const createForm = (contacts) => {
   const overlay = document.createElement('div');
   const form = document.createElement('form');
   const close = document.createElement('button');
@@ -19,7 +18,6 @@ export const createForm = () => {
   const btnsWrapper = document.createElement('div');
   const addBtn = document.createElement('button');
   const deleteBtn = document.createElement('button');
-  const arrContacts = contacts;
   const input = inputPhone;
   const im = new Inputmask('+7 (999) 999-99-99');
 
@@ -99,9 +97,9 @@ export const createForm = () => {
     newTr.surname = inputSurName.value.trim();
     newTr.phone = inputPhone.value.trim();
 
-    arrContacts.push(newTr);
-    document.querySelector('tbody').append(createRow(newTr));
-    localStorage.setItem('user', JSON.stringify(arrContacts));
+    contacts.push(newTr);
+    document.querySelector('tbody').append(createRow(newTr, contacts));
+    localStorage.setItem('user', JSON.stringify(contacts));
     overlay.remove();
     document.querySelector('.btn-danger').classList.remove('remove');
   });

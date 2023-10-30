@@ -1,6 +1,6 @@
 import {createForm} from './createForm.js';
 
-export const createTable = () => {
+export const createTable = (contacts) => {
   const table = document.createElement('table');
   const thead = document.createElement('thead');
   const tBody = document.createElement('tbody');
@@ -38,7 +38,7 @@ export const createTable = () => {
   container.append(btnsWrapper, table);
 
   addBtn.addEventListener('click', () => {
-    const modalForm = createForm();
+    const modalForm = createForm(contacts);
     document.body.append(modalForm.overlay);
   });
 
